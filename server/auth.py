@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from . import db
 from .models import User
 from flask_login import login_user, logout_user, login_required, current_user
@@ -9,15 +9,51 @@ auth = Blueprint("auth", __name__)
 
 @auth.route("/login", methods=['GET', 'POST'])
 def login():
-    pass
+    if request.method == 'POST':
+        data = request.json
+        email = data['email']
+        password = data['password']
+
+        user = User.query.filter_by(email=email).first()
+        if user:
+            if check_password_hash(user.password, password):
+                login_user(user, remember=True)
+                return jsonify({"message": "Logged In."})
+            else:
+                return jsonify({"message": "Password is incorrect."})
+        else:
+            return jsonify({"message": "User doesn't exist."})
 
 
 @auth.route("/register", methods=['GET', 'POST'])
 def sign_up():
-    pass
+    if request.method == 'POST':
+        data = request.json
+        email = data['email']
+        username = data['username']
+        password1 = data['password1']
+        password2 = data['password2']
+
+        email_exists = User.query.filter_by(email=email).first()
+        username_exists = User.query.filter_by(username=username).first()
+        if email_exists:
+            return jsonify({"message": "Email is already in use."})
+        elif username_exists:
+            return jsonify({"message": "Username is already in use."})
+        elif password1 != password2:
+            return jsonify({"message": "Passwords don't match!"})
+        else:
+            new_user = User(email=email,
+                            username=username,
+                            password=generate_password_hash(password1, method='sha256'))
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user, remember=True)
+            return jsonify({"message": "User created!"})
 
 
 @login_required
 @auth.route("/logout")
 def logout():
-    pass
+    logout_user()
+    return jsonify({"message": "User logged out!"})
