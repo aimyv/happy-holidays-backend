@@ -9,6 +9,7 @@ flask-sqlalchemy = "*"
 flask-cors = "*"
 gunicorn = "*"
 flask-login = "*"
+python-dotenv = "*"
 
 [dev-packages]
 pytest = "*"
@@ -19,6 +20,6 @@ python_version = "3.10"
 
 [scripts]
 dev = "bash -c \"export FLASK_DEBUG=true && flask run\""
-start = "gunicorn app:app"
+start = "gunicorn server:app"
 test = "pytest ."
 coverage = "pytest --cov-report term-missing --cov=./scripts"
