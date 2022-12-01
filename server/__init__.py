@@ -35,6 +35,11 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+@app.errorhandler(exceptions.BadRequest)
+def handle_400(err):
+    return jsonify({"message": f"Oops... {err}"}), 400
+
+
 @app.errorhandler(exceptions.NotFound)
 def handle_404(err):
     return jsonify({"message": f"Oops... {err}"}), 404
