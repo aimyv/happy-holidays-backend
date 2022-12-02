@@ -23,6 +23,8 @@ def login():
                 return jsonify({"message": "Password is incorrect."})
         else:
             return jsonify({"message": "User doesn't exist."})
+    else:
+        return jsonify({"message": "Send a post request with the relevant attributes."})
 
 
 @auth.route("/register", methods=['GET', 'POST'])
@@ -50,6 +52,8 @@ def sign_up():
             db.session.commit()
             login_user(new_user, remember=True)
             return jsonify({"message": "User created!"})
+    else:
+        return jsonify({"message": "Send a post request with the relevant attributes."})
 
 
 @login_required

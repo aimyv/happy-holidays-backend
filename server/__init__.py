@@ -43,6 +43,8 @@ def share():
         msg.html = render_template('share.html')
         mail.send(msg)
         return jsonify({"message": "Sharing is caring!"})
+    else:
+        return jsonify({"message": "Send a post request with an email attribute."})
 
 
 @login_manager.user_loader
