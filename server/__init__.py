@@ -1,6 +1,7 @@
 from .models.models import User
 from .routes.auth import auth
-from .routes.views import views
+from .routes.users import users
+from .routes.wants import wants
 from flask import Flask, jsonify, render_template, request
 from werkzeug import exceptions
 from os import path
@@ -19,8 +20,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
 db.init_app(app)
 
 
-app.register_blueprint(views, url_prefix="/")
 app.register_blueprint(auth, url_prefix="/")
+app.register_blueprint(users, url_prefix="/")
+app.register_blueprint(wants, url_prefix="/")
 
 
 with app.app_context():
@@ -31,6 +33,11 @@ login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
 mail = mail_config(app)
+
+
+@app.route("/")
+def home():
+    return jsonify({"message": "Hello, from Flask!"}), 200
 
 
 @app.route("/share", methods=['GET', 'POST'])
