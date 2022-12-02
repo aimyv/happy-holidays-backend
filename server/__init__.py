@@ -1,13 +1,14 @@
 from .models.models import User
 from .routes.auth import auth
 from .routes.views import views
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from werkzeug import exceptions
-# from flask_sqlalchemy import SQLAlchemy
 from os import path
 from flask_login import LoginManager
 from flask_cors import CORS
 from .database.db import db
+from .mailers import mail_config
+from flask_mail import Message
 
 DB_NAME = 'database.db'
 
@@ -28,6 +29,20 @@ with app.app_context():
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
+
+mail = mail_config(app)
+
+
+@app.route("/share", methods=['GET', 'POST'])
+def share():
+    if request.method == 'POST':
+        data = request.json
+        to_email = data['email']
+        msg = Message("Join Happy Holidays!",
+                      sender='Happy Holidays!', recipients=[to_email])
+        msg.html = render_template('share.html')
+        mail.send(msg)
+        return jsonify({"message": "Sharing is caring!"})
 
 
 @login_manager.user_loader

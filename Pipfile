@@ -10,6 +10,7 @@ flask-cors = "*"
 gunicorn = "*"
 flask-login = "*"
 python-dotenv = "*"
+flask-mail = "*"
 
 [dev-packages]
 pytest = "*"
