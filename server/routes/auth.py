@@ -3,6 +3,7 @@ from ..database.db import db
 from ..models.models import User
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug import exceptions
 
 auth = Blueprint("auth", __name__)
 
@@ -18,13 +19,14 @@ def login():
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
-                return jsonify({"message": "Logged In."})
+                return jsonify({"message": "Logged In."}), 201
             else:
-                return jsonify({"message": "Password is incorrect."})
+                raise exceptions.BadRequest(f"Password is incorrect.")
         else:
-            return jsonify({"message": "User doesn't exist."})
+            raise exceptions.NotFound(f"User doesn't exist.")
     else:
-        return jsonify({"message": "Send a post request with the relevant attributes."})
+        raise exceptions.BadRequest(
+            f"Send a POST request with the relevant attributes.")
 
 
 @auth.route("/register", methods=['GET', 'POST'])
@@ -39,11 +41,11 @@ def sign_up():
         email_exists = User.query.filter_by(email=email).first()
         username_exists = User.query.filter_by(username=username).first()
         if email_exists:
-            return jsonify({"message": "Email is already in use."})
+            raise exceptions.BadRequest("Email is already in use.")
         elif username_exists:
-            return jsonify({"message": "Username is already in use."})
+            raise exceptions.BadRequest("Username is already in use.")
         elif password1 != password2:
-            return jsonify({"message": "Passwords don't match!"})
+            raise exceptions.BadRequest("Passwords don't match!")
         else:
             new_user = User(email=email,
                             username=username,
@@ -56,9 +58,10 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
-            return jsonify({"message": "User created!"})
+            return jsonify({"message": "User created!"}), 201
     else:
-        return jsonify({"message": "Send a post request with the relevant attributes."})
+        raise exceptions.BadRequest(
+            f"Send a POST request with the relevant attributes.")
 
 
 @login_required

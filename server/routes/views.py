@@ -82,3 +82,13 @@ def users_handler(user_id):
         except:
             raise exceptions.BadRequest(
                 f"failed to delete a user with that id: {user_id}")
+
+
+@views.route('/wants/<int:want_id>', methods=['GET', 'PUT', 'DELETE'])
+def wants_handler(want_id):
+    if request.method == 'GET':
+        pass
+    elif request.method == 'PUT':
+        pass
+    elif request.method == 'DELETE':
+        pass

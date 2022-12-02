@@ -54,17 +54,17 @@ def load_user(id):
 
 @app.errorhandler(exceptions.BadRequest)
 def handle_400(err):
-    return jsonify({"message": f"Oops... {err}"}), 400
+    return jsonify({"error":  f"{err}"}), 400
 
 
 @app.errorhandler(exceptions.NotFound)
 def handle_404(err):
-    return jsonify({"message": f"Oops... {err}"}), 404
+    return jsonify({"error": f"{err}"}), 404
 
 
 @app.errorhandler(exceptions.InternalServerError)
 def handle_500(err):
-    return jsonify({"message": f"It's not you it's us"}), 500
+    return jsonify({"error": f"It's not you it's us"}), 500
 
 
 if __name__ == "__main__":
