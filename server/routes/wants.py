@@ -43,7 +43,17 @@ def all_wants():
 @wants.route('/wants/<int:want_id>', methods=['GET', 'PUT', 'DELETE'])
 def wants_handler(want_id):
     if request.method == 'GET':
-        pass
+        try:
+            foundWant = Want.query.filter_by(id=want_id).first()
+            output = {
+                "id": foundWant.id,
+                "category": foundWant.category,
+                "item": foundWant.item
+            }
+            return output
+        except:
+            raise exceptions.BadRequest(
+                f"We do not have a want with that id: {want_id}")
     elif request.method == 'PUT':
         pass
     elif request.method == 'DELETE':
