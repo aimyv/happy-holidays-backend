@@ -39,7 +39,7 @@ def share():
         data = request.json
         to_email = data['email']
         msg = Message("Join Happy Holidays!",
-                      sender='Happy Holidays!', recipients=[to_email])
+                      sender='Happy-Holidays', recipients=[to_email])
         msg.html = render_template('share.html')
         mail.send(msg)
         return jsonify({"message": "Sharing is caring!"})
