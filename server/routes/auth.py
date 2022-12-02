@@ -47,7 +47,12 @@ def sign_up():
         else:
             new_user = User(email=email,
                             username=username,
-                            password=generate_password_hash(password1, method='sha256'))
+                            password=generate_password_hash(
+                                password1, method='sha256'),
+                            friends={"friends_list": []},
+                            wants={"wants_list": []},
+                            dislikes={"dislikes_list": []},
+                            dreams={"dreams_list": []})
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
