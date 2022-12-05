@@ -3,6 +3,7 @@ from .routes.auth import auth
 from .routes.users import users
 from .routes.wants import wants
 from .routes.dislikes import dislikes
+from .routes.dreams import dreams
 from flask import Flask, jsonify, render_template, request
 from werkzeug import exceptions
 from os import path
@@ -25,6 +26,7 @@ app.register_blueprint(auth, url_prefix="/")
 app.register_blueprint(users, url_prefix="/")
 app.register_blueprint(wants, url_prefix="/")
 app.register_blueprint(dislikes, url_prefix="/")
+app.register_blueprint(dreams, url_prefix="/")
 
 
 with app.app_context():

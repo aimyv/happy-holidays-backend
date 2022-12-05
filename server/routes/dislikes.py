@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
-from ..models.models import User, Want, Dislike, Dream
+from ..models.models import User, Dislike
 from ..database.db import db
 from werkzeug import exceptions
 from sqlalchemy import update
