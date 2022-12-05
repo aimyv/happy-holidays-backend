@@ -18,10 +18,8 @@ def all_dislikes():
         return jsonify(usableOutputs), 200
     elif request.method == 'POST':
         data = request.json
-        count = Dislike.query.count()
-        id = count + 1
         new_dislike = Dislike(
-            id=id, category=data["category"], item=data["item"], author=data["author"])
+            category=data["category"], item=data["item"], author=data["author"])
         db.session.add(new_dislike)
         db.session.commit()
         output = {"id": new_dislike.id, "category": new_dislike.category,

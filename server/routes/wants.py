@@ -4,6 +4,7 @@ from ..models.models import User, Want
 from ..database.db import db
 from werkzeug import exceptions
 from sqlalchemy import update
+from sqlalchemy import func
 
 wants = Blueprint("wants", __name__)
 
@@ -18,10 +19,8 @@ def all_wants():
         return jsonify(usableOutputs), 200
     elif request.method == 'POST':
         data = request.json
-        count = Want.query.count()
-        id = count + 1
-        new_want = Want(
-            id=id, category=data["category"], item=data["item"], author=data["author"])
+        new_want = Want(category=data["category"],
+                        item=data["item"], author=data["author"])
         db.session.add(new_want)
         db.session.commit()
         output = {"id": new_want.id, "category": new_want.category,

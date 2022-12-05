@@ -18,10 +18,8 @@ def all_dreams():
         return jsonify(usableOutputs), 200
     elif request.method == 'POST':
         data = request.json
-        count = Dream.query.count()
-        id = count + 1
         new_dream = Dream(
-            id=id, category=data["category"], item=data["item"], author=data["author"])
+            category=data["category"], item=data["item"], author=data["author"])
         db.session.add(new_dream)
         db.session.commit()
         output = {"id": new_dream.id, "category": new_dream.category,
