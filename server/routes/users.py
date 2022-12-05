@@ -58,9 +58,17 @@ def display_wants(user_id):
 
 @users.route('/users/<int:user_id>/dislikes', methods=['GET'])
 def display_dislikes(user_id):
-    pass
+    foundDislikes = Dislike.query.filter_by(author=user_id).all()
+    outputs = map(lambda d: {
+        "id": d.id, "category": d.category, "item": d.item, "author": d.author}, foundDislikes)
+    usableOutputs = list(outputs)
+    return jsonify(usableOutputs), 200
 
 
 @users.route('/users/<int:user_id>/dreams', methods=['GET'])
 def display_dreams(user_id):
-    pass
+    foundDreams = Dream.query.filter_by(author=user_id).all()
+    outputs = map(lambda d: {
+        "id": d.id, "category": d.category, "item": d.item, "author": d.author}, foundDreams)
+    usableOutputs = list(outputs)
+    return jsonify(usableOutputs), 200

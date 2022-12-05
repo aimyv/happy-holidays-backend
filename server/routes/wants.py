@@ -20,17 +20,6 @@ def all_wants():
         data = request.json
         count = Want.query.count()
         id = count + 1
-
-        # update user wants
-        # foundUser = User.query.filter_by(id=data["user"]).first()
-        # new_array = foundUser.wants["wants_list"]
-        # new_array.append(id)
-        # stmt = (update(User).where(
-        #     User.id == data["user"]).values(wants={"wants_list": new_array}))
-        # db.session.execute(stmt)
-        # db.session.commit()
-
-        # post want
         new_want = Want(
             id=id, category=data["category"], item=data["item"], author=data["author"])
         db.session.add(new_want)
