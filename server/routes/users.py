@@ -27,10 +27,10 @@ def users_handler(user_id):
                 "email": foundUser.email,
                 "username": foundUser.username,
                 "password": foundUser.password,
-                "friends": foundUser.friends,
-                "wants": foundUser.wants,
-                "dislikes": foundUser.dislikes,
-                "dreams": foundUser.dreams
+                # "friends": foundUser.friends,
+                # "wants": foundUser.wants,
+                # "dislikes": foundUser.dislikes,
+                # "dreams": foundUser.dreams
             }
             return output
         except:

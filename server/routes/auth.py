@@ -51,10 +51,8 @@ def sign_up():
                             username=username,
                             password=generate_password_hash(
                                 password1, method='sha256'),
-                            friends={"friends_list": []},
-                            wants={"wants_list": []},
-                            dislikes={"dislikes_list": []},
-                            dreams={"dreams_list": []})
+                            friends={"friends_list": []}
+                            )
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)

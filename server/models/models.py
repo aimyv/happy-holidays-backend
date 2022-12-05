@@ -9,24 +9,30 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True)
     password = db.Column(db.String(150))
     friends = db.Column(db.JSON)
-    wants = db.Column(db.JSON)
-    dislikes = db.Column(db.JSON)
-    dreams = db.Column(db.JSON)
+    wants = db.relationship('Want', backref='user', passive_deletes=True)
+    dislikes = db.relationship('Dislike', backref='user', passive_deletes=True)
+    dreams = db.relationship('Dream', backref='user', passive_deletes=True)
 
 
 class Want(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(20))
     item = db.Column(db.String(150))
+    author = db.Column(db.Integer, db.ForeignKey(
+        'user.id', ondelete='CASCADE'), nullable=False)
 
 
 class Dislike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(20))
     item = db.Column(db.String(150))
+    author = db.Column(db.Integer, db.ForeignKey(
+        'user.id', ondelete='CASCADE'), nullable=False)
 
 
 class Dream(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(20))
     item = db.Column(db.String(150))
+    author = db.Column(db.Integer, db.ForeignKey(
+        'user.id', ondelete='CASCADE'), nullable=False)
