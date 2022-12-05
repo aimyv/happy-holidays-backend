@@ -45,3 +45,22 @@ def users_handler(user_id):
         except:
             raise exceptions.BadRequest(
                 f"failed to delete a user with that id: {user_id}")
+
+
+@users.route('/users/<int:user_id>/wants', methods=['GET'])
+def display_wants(user_id):
+    foundWants = Want.query.filter_by(author=user_id).all()
+    outputs = map(lambda w: {
+        "id": w.id, "category": w.category, "item": w.item, "author": w.author}, foundWants)
+    usableOutputs = list(outputs)
+    return jsonify(usableOutputs), 200
+
+
+@users.route('/users/<int:user_id>/dislikes', methods=['GET'])
+def display_dislikes(user_id):
+    pass
+
+
+@users.route('/users/<int:user_id>/dreams', methods=['GET'])
+def display_dreams(user_id):
+    pass
