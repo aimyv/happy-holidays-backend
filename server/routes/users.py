@@ -27,10 +27,7 @@ def users_handler(user_id):
                 "email": foundUser.email,
                 "username": foundUser.username,
                 "password": foundUser.password,
-                # "friends": foundUser.friends,
-                # "wants": foundUser.wants,
-                # "dislikes": foundUser.dislikes,
-                # "dreams": foundUser.dreams
+                "friends": foundUser.friends,
             }
             return output
         except:
@@ -45,6 +42,23 @@ def users_handler(user_id):
         except:
             raise exceptions.BadRequest(
                 f"failed to delete a user with that id: {user_id}")
+
+
+@users.route('/users/<int:user_id>/friends', methods=['GET', 'POST'])
+def friends(user_id):
+    foundUser = User.query.filter_by(id=user_id).first()
+    friends = foundUser.friends["friends_list"]
+    if request.method == 'GET':
+        return jsonify(friends), 200
+    elif request.method == 'POST':
+        data = request.json
+        friend = data['friend']
+        friends.append(friend)
+        stmt = update(User).where(User.id == user_id).values(
+            friends={"friends_list": friends})
+        db.session.execute(stmt)
+        db.session.commit()
+        return "Added friend", 201
 
 
 @users.route('/users/<int:user_id>/wants', methods=['GET'])

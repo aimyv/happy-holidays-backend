@@ -18,6 +18,8 @@
 | GET         | /users/:id/wants    | Get a specific user's wants    |
 | GET         | /users/:id/dislikes | Get a specific user's dislikes |
 | GET         | /users/:id/dreams   | Get a specific user's dreams   |
+| GET         | /users/:id/friends  | Get a specific user's friends  |
+| POST        | /users/:id/friends  | Add a friend                   |
 | POST        | /share              | Email invite to application    |
 | GET         | /wants              | List all wants                 |
 | POST        | /wants              | Post a want                    |
