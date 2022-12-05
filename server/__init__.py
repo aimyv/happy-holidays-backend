@@ -48,10 +48,11 @@ def home():
 def share():
     if request.method == 'POST':
         data = request.json
+        invite_from = data['from']
         to_email = data['email']
         msg = Message("Join Happy Holidays!",
                       sender='Happy-Holidays', recipients=[to_email])
-        msg.html = render_template('share.html')
+        msg.html = render_template('share.html', name=invite_from)
         mail.send(msg)
         return jsonify({"message": "Sharing is caring!"})
     else:
