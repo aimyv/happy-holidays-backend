@@ -19,7 +19,7 @@ def login():
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
-                return jsonify({"message": "Logged In."}), 201
+                return jsonify({"message": "Logged In."}), 200
             else:
                 raise exceptions.BadRequest(f"Password is incorrect.")
         else:
