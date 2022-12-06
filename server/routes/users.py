@@ -53,7 +53,6 @@ def friends(user_id):
     elif request.method == 'POST':
         data = request.json
         friend = data['friend']
-
         foundUser = User.query.filter_by(id=friend).first()
         if foundUser:
             friends.append(friend)

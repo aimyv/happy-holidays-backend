@@ -18,6 +18,7 @@ class Want(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(20))
     item = db.Column(db.String(150))
+    purchased = db.Column(db.Boolean)
     author = db.Column(db.Integer, db.ForeignKey(
         'user.id', ondelete='CASCADE'), nullable=False)
 
@@ -34,5 +35,6 @@ class Dream(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     category = db.Column(db.String(20))
     item = db.Column(db.String(150))
+    purchased = db.Column(db.Boolean)
     author = db.Column(db.Integer, db.ForeignKey(
         'user.id', ondelete='CASCADE'), nullable=False)

@@ -14,13 +14,13 @@ def all_wants():
     if request.method == 'GET':
         wants = Want.query.all()
         outputs = map(lambda w: {
-            "id": w.id, "category": w.category, "item": w.item, "author": w.author}, wants)
+            "id": w.id, "category": w.category, "item": w.item, "purchased": w.purchased, "author": w.author}, wants)
         usableOutputs = list(outputs)
         return jsonify(usableOutputs), 200
     elif request.method == 'POST':
         data = request.json
         new_want = Want(category=data["category"],
-                        item=data["item"], author=data["author"])
+                        item=data["item"], purchased=False, author=data["author"])
         db.session.add(new_want)
         db.session.commit()
         output = {"id": new_want.id, "category": new_want.category,
@@ -28,7 +28,7 @@ def all_wants():
         return jsonify(output), 201
 
 
-@wants.route('/wants/<int:want_id>', methods=['GET', 'DELETE'])
+@wants.route('/wants/<int:want_id>', methods=['GET', 'PUT', 'DELETE'])
 def wants_handler(want_id):
     if request.method == 'GET':
         try:
@@ -37,6 +37,26 @@ def wants_handler(want_id):
                 "id": foundWant.id,
                 "category": foundWant.category,
                 "item": foundWant.item,
+                "purchased": foundWant.purchased,
+                "author": foundWant.author
+            }
+            return output
+        except:
+            raise exceptions.BadRequest(
+                f"We do not have a want with that id: {want_id}")
+    elif request.method == 'PUT':
+        try:
+            foundWant = Want.query.filter_by(id=want_id).first()
+            flip = not foundWant.purchased
+            stmt = update(Want).where(
+                Want.id == want_id).values(purchased=flip)
+            db.session.execute(stmt)
+            db.session.commit()
+            output = {
+                "id": foundWant.id,
+                "category": foundWant.category,
+                "item": foundWant.item,
+                "purchased": flip,
                 "author": foundWant.author
             }
             return output
