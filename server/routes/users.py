@@ -53,12 +53,18 @@ def friends(user_id):
     elif request.method == 'POST':
         data = request.json
         friend = data['friend']
-        friends.append(friend)
-        stmt = update(User).where(User.id == user_id).values(
-            friends={"friends_list": friends})
-        db.session.execute(stmt)
-        db.session.commit()
-        return "Added friend", 201
+
+        foundUser = User.query.filter_by(id=friend).first()
+        if foundUser:
+            friends.append(friend)
+            stmt = update(User).where(User.id == user_id).values(
+                friends={"friends_list": friends})
+            db.session.execute(stmt)
+            db.session.commit()
+            return "Added friend", 201
+        else:
+            raise exceptions.BadRequest(
+                f"We do not have a user with that id: {friend}")
 
 
 @users.route('/users/<int:user_id>/wants', methods=['GET'])
