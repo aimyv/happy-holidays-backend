@@ -53,7 +53,7 @@ def friends(user_id):
     elif request.method == 'POST':
         data = request.json
         friend = data['friend']
-        foundUser = User.query.filter_by(id=friend).first()
+        foundUser = User.query.filter_by(username=friend).first()
         if foundUser:
             friends.append(friend)
             stmt = update(User).where(User.id == user_id).values(
