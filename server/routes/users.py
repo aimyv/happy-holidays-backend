@@ -124,3 +124,19 @@ def display_dreams(user_id):
         "id": d.id, "category": d.category, "item": d.item, "author": d.author, "purchased": d.purchased}, foundDreams)
     usableOutputs = list(outputs)
     return jsonify(usableOutputs), 200
+
+
+@users.route('/users/<int:user_id>/wishlist')
+def display_wishlist(user_id):
+    foundWants = Want.query.filter_by(author=user_id).all()
+    wants = map(lambda w: {
+        "id": w.id, "category": w.category, "item": w.item, "author": w.author, "purchased": w.purchased}, foundWants)
+    foundDislikes = Dislike.query.filter_by(author=user_id).all()
+    dislikes = map(lambda d: {
+        "id": d.id, "category": d.category, "item": d.item, "author": d.author}, foundDislikes)
+    foundDreams = Dream.query.filter_by(author=user_id).all()
+    dreams = map(lambda d: {
+        "id": d.id, "category": d.category, "item": d.item, "author": d.author, "purchased": d.purchased}, foundDreams)
+    usableOutputs = {'wants': list(wants), 'dislikes': list(
+        dislikes), 'dreams': list(dreams)}
+    return usableOutputs, 200
