@@ -96,15 +96,10 @@ class TestAPICase():
         assert test.status == '400 BAD REQUEST'
 
     def test_get_friends(self, api):
-        test = api.get('/users/test')
-        assert test.status == '200 OK'
-        user_id = test.json["id"]
-        res = api.get(f'/users/{user_id}/friends')
-        assert test.status == '200 OK'
+        res = api.get('/users/test/friends')
+        assert res.status == '200 OK'
 
     def test_add_friend(self, api):
-        test = api.get('/users/test')
-        user_id = test.json["id"]
         mock_data = json.dumps({
             "email": "test2@test2.com",
             "username": "test2",
@@ -116,36 +111,32 @@ class TestAPICase():
         mock_data = json.dumps({
             "friend": "test2",
         })
-        res = api.post(f'/users/{user_id}/friends',
+        res = api.post('/users/test/friends',
                        data=mock_data, headers=mock_headers)
         assert res.status == '201 CREATED'
-        res = api.get(f'/users/{user_id}/friends')
+        res = api.get('/users/test/friends')
         assert len(res.json) == 1
 
     def test_add_nonexistant_friend(self, api):
-        test = api.get('/users/test')
-        user_id = test.json["id"]
         mock_data = json.dumps({
             "friend": "test1",
         })
         mock_headers = {'Content-Type': 'application/json'}
-        res = api.post(f'/users/{user_id}/friends',
+        res = api.post('/users/test/friends',
                        data=mock_data, headers=mock_headers)
         assert res.status == '400 BAD REQUEST'
-        res = api.get(f'/users/{user_id}/friends')
+        res = api.get('/users/test/friends')
         assert len(res.json) == 1
 
     def test_add_existing_friend(self, api):
-        test = api.get('/users/test')
-        user_id = test.json["id"]
         mock_data = json.dumps({
             "friend": "test2",
         })
         mock_headers = {'Content-Type': 'application/json'}
-        res = api.post(f'/users/{user_id}/friends',
+        res = api.post('/users/test/friends',
                        data=mock_data, headers=mock_headers)
         assert res.status == '400 BAD REQUEST'
-        res = api.get(f'/users/{user_id}/friends')
+        res = api.get('/users/test/friends')
         assert len(res.json) == 1
 
     def test_logout(self, api):
