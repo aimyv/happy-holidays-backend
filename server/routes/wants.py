@@ -24,7 +24,7 @@ def all_wants():
         db.session.add(new_want)
         db.session.commit()
         output = {"id": new_want.id, "category": new_want.category,
-                  "item": new_want.item, "author": new_want.author}
+                  "item": new_want.item, "author": new_want.author, "purchased": new_want.purchased}
         return jsonify(output), 201
 
 

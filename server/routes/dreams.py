@@ -23,7 +23,7 @@ def all_dreams():
         db.session.add(new_dream)
         db.session.commit()
         output = {"id": new_dream.id, "category": new_dream.category,
-                  "item": new_dream.item, "author": new_dream.author}
+                  "item": new_dream.item, "author": new_dream.author, "purchased": new_dream.purchased}
         return jsonify(output), 201
 
 

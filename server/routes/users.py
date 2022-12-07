@@ -103,7 +103,7 @@ def friends(user_id):
 def display_wants(user_id):
     foundWants = Want.query.filter_by(author=user_id).all()
     outputs = map(lambda w: {
-        "id": w.id, "category": w.category, "item": w.item, "author": w.author}, foundWants)
+        "id": w.id, "category": w.category, "item": w.item, "author": w.author, "purchased": w.purchased}, foundWants)
     usableOutputs = list(outputs)
     return jsonify(usableOutputs), 200
 
@@ -121,6 +121,6 @@ def display_dislikes(user_id):
 def display_dreams(user_id):
     foundDreams = Dream.query.filter_by(author=user_id).all()
     outputs = map(lambda d: {
-        "id": d.id, "category": d.category, "item": d.item, "author": d.author}, foundDreams)
+        "id": d.id, "category": d.category, "item": d.item, "author": d.author, "purchased": d.purchased}, foundDreams)
     usableOutputs = list(outputs)
     return jsonify(usableOutputs), 200
