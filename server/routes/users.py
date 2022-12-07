@@ -44,6 +44,33 @@ def users_handler(user_id):
                 f"failed to delete a user with that id: {user_id}")
 
 
+@users.route('/users/<user_name>', methods=['GET', 'DELETE'])
+def username_handler(user_name):
+    if request.method == 'GET':
+        try:
+            foundUser = User.query.filter_by(username=user_name).first()
+            output = {
+                "id": foundUser.id,
+                "email": foundUser.email,
+                "username": foundUser.username,
+                "password": foundUser.password,
+                "friends": foundUser.friends,
+            }
+            return output
+        except:
+            raise exceptions.BadRequest(
+                f"We do not have a user with that username: {user_name}")
+    elif request.method == 'DELETE':
+        try:
+            foundUser = User.query.filter_by(username=user_name).first()
+            db.session.delete(foundUser)
+            db.session.commit()
+            return "User deleted", 204
+        except:
+            raise exceptions.BadRequest(
+                f"failed to delete a user with that name: {user_name}")
+
+
 @users.route('/users/<int:user_id>/friends', methods=['GET', 'POST'])
 def friends(user_id):
     foundUser = User.query.filter_by(id=user_id).first()
