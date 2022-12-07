@@ -35,10 +35,6 @@ def username_handler(user_name):
                 f"We do not have a user with that username: {user_name}")
     elif request.method == 'DELETE':
         try:
-            # x = User.query.filter_by(
-            #     user_name in friends["friends_list"]).all()
-            # print(x)
-
             users = User.query.all()
             for user in users:
                 friends = user.friends["friends_list"]
