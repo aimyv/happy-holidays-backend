@@ -122,6 +122,32 @@ class TestAPICase():
         res = api.get(f'/users/{user_id}/friends')
         assert len(res.json) == 1
 
+    def test_add_nonexistant_friend(self, api):
+        test = api.get('/users/test')
+        user_id = test.json["id"]
+        mock_data = json.dumps({
+            "friend": "test1",
+        })
+        mock_headers = {'Content-Type': 'application/json'}
+        res = api.post(f'/users/{user_id}/friends',
+                       data=mock_data, headers=mock_headers)
+        assert res.status == '400 BAD REQUEST'
+        res = api.get(f'/users/{user_id}/friends')
+        assert len(res.json) == 1
+
+    def test_add_existing_friend(self, api):
+        test = api.get('/users/test')
+        user_id = test.json["id"]
+        mock_data = json.dumps({
+            "friend": "test2",
+        })
+        mock_headers = {'Content-Type': 'application/json'}
+        res = api.post(f'/users/{user_id}/friends',
+                       data=mock_data, headers=mock_headers)
+        assert res.status == '400 BAD REQUEST'
+        res = api.get(f'/users/{user_id}/friends')
+        assert len(res.json) == 1
+
     def test_logout(self, api):
         res = api.get('/logout')
         assert res.status == '200 OK'
