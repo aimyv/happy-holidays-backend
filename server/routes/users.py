@@ -82,6 +82,12 @@ def friends(user_id):
         friend = data['friend']
         foundUser = User.query.filter_by(username=friend).first()
         if foundUser:
+            if foundUser.id == user_id:
+                raise exceptions.BadRequest(
+                    f"You can't add yourself as a friend!")
+            if friend in friends:
+                raise exceptions.BadRequest(
+                    f"{foundUser.username} has already been added to your friends!")
             friends.append(friend)
             stmt = update(User).where(User.id == user_id).values(
                 friends={"friends_list": friends})
@@ -90,7 +96,7 @@ def friends(user_id):
             return "Added friend", 201
         else:
             raise exceptions.BadRequest(
-                f"We do not have a user with that id: {friend}")
+                f"We do not have a user with that name: {friend}")
 
 
 @users.route('/users/<int:user_id>/wants', methods=['GET'])
