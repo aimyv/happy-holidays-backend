@@ -15,6 +15,8 @@
 | GET         | /users              | List all users                            |
 | GET         | /users/:id          | Get user by id                            |
 | DELETE      | /users/:id          | Delete user by id                         |
+| GET         | /users/:name        | Get user by name                          |
+| DELETE      | /users/:name        | Delete user by name                       |
 | GET         | /users/:id/wants    | Get a specific user's wants               |
 | GET         | /users/:id/dislikes | Get a specific user's dislikes            |
 | GET         | /users/:id/dreams   | Get a specific user's dreams              |
