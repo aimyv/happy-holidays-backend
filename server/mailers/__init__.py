@@ -11,10 +11,10 @@ def mail_config(app):
     If you want to use a 'real' account for this, don't choose Gmail as it has
     security features that need to be turned off to allow this functionality.
     """
-    app.config['MAIL_SERVER'] = 'smtp.mailtrap.io'
+    app.config['MAIL_SERVER']='smtp.mailtrap.io'
     app.config['MAIL_PORT'] = 2525
-    app.config['MAIL_USERNAME'] = '9e1b4547782291'
-    app.config['MAIL_PASSWORD'] = '2274231c2ae413'
+    app.config['MAIL_USERNAME'] = '6a28e92320e6c3'
+    app.config['MAIL_PASSWORD'] = 'f59a52e3e60e6b'
     app.config['MAIL_USE_TLS'] = True
     app.config['MAIL_USE_SSL'] = False
     return Mail(app)
