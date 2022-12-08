@@ -139,15 +139,15 @@ class TestAPICase():
         res = api.get('/users/test/friends')
         assert len(res.json) == 1
 
-    # def test_share(self, api):
-    #     mock_data = json.dumps({
-    #         "email": "test@test.com",
-    #         "from": "test"
-    #     })
-    #     mock_headers = {'Content-Type': 'application/json'}
-    #     res = api.post('/share',
-    #                    data=mock_data, headers=mock_headers)
-    #     assert res.status == '201 CREATED'
+    def test_share(self, api):
+        mock_data = json.dumps({
+            "email": "test@test.com",
+            "from": "test"
+        })
+        mock_headers = {'Content-Type': 'application/json'}
+        res = api.post('/share',
+                       data=mock_data, headers=mock_headers)
+        assert res.status == '201 CREATED'
 
     def test_get_all_wants(self, api):
         res = api.get('/wants')
@@ -211,6 +211,41 @@ class TestAPICase():
 
     def test_delete_dislike(self, api):
         res = api.delete('/dislikes/1')
+        assert res.status == '204 NO CONTENT'
+
+    def test_get_all_dreams(self, api):
+        res = api.get('/dreams')
+        assert res.status == '200 OK'
+
+    def test_post_dream(self, api):
+        mock_data = json.dumps({
+            "category": "other",
+            "item": "dream",
+            "author": "test"
+        })
+        mock_headers = {'Content-Type': 'application/json'}
+        res = api.post('/dreams',
+                       data=mock_data, headers=mock_headers)
+        assert res.status == '201 CREATED'
+        res = api.get('/users/test/dreams')
+        assert len(res.json) == 1
+
+    def test_put_dream(self, api):
+        res = api.put('/dreams/1')
+        assert res.status == '202 ACCEPTED'
+        res = api.get('/dreams/1')
+        assert res.json["purchased"] == True
+
+    def test_get_specific_dream(self, api):
+        res = api.get('/dreams/1')
+        assert res.status == '200 OK'
+
+    def test_get_user_dreams(self, api):
+        res = api.get('/users/test/dreams')
+        assert res.status == '200 OK'
+
+    def test_delete_dream(self, api):
+        res = api.delete('/dreams/1')
         assert res.status == '204 NO CONTENT'
 
     def test_logout(self, api):

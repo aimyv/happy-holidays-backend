@@ -58,7 +58,7 @@ def dreams_handler(dream_id):
                 "purchased": flip,
                 "author": foundDream.author
             }
-            return output
+            return output, 202
         except:
             raise exceptions.BadRequest(
                 f"We do not have a dream with that id: {dream_id}")
