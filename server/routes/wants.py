@@ -59,7 +59,7 @@ def wants_handler(want_id):
                 "purchased": flip,
                 "author": foundWant.author
             }
-            return output
+            return output, 202
         except:
             raise exceptions.BadRequest(
                 f"We do not have a want with that id: {want_id}")
