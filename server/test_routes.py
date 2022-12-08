@@ -170,11 +170,19 @@ class TestAPICase():
         res = api.get('/wants/1')
         assert res.status == '200 OK'
 
+    def test_get_nonexistant_want(self, api):
+        res = api.get('/wants/100')
+        assert res.status == '400 BAD REQUEST'
+
     def test_put_want(self, api):
         res = api.put('/wants/1')
         assert res.status == '202 ACCEPTED'
         res = api.get('/wants/1')
         assert res.json["purchased"] == True
+
+    def test_put_nonexistant_want(self, api):
+        res = api.put('/wants/100')
+        assert res.status == '400 BAD REQUEST'
 
     def test_get_user_wants(self, api):
         res = api.get('/users/test/wants')
@@ -183,6 +191,10 @@ class TestAPICase():
     def test_delete_want(self, api):
         res = api.delete('/wants/1')
         assert res.status == '204 NO CONTENT'
+
+    def test_delete_nonexistant_want(self, api):
+        res = api.delete('/wants/100')
+        assert res.status == '400 BAD REQUEST'
 
     def test_get_all_dislikes(self, api):
         res = api.get('/dislikes')
@@ -205,6 +217,10 @@ class TestAPICase():
         res = api.get('/dislikes/1')
         assert res.status == '200 OK'
 
+    def test_get_nonexistant_dislike(self, api):
+        res = api.get('/dislikes/100')
+        assert res.status == '400 BAD REQUEST'
+
     def test_get_user_dislikes(self, api):
         res = api.get('/users/test/dislikes')
         assert res.status == '200 OK'
@@ -212,6 +228,10 @@ class TestAPICase():
     def test_delete_dislike(self, api):
         res = api.delete('/dislikes/1')
         assert res.status == '204 NO CONTENT'
+
+    def test_delete_nonexistant_dislike(self, api):
+        res = api.delete('/dislikes/100')
+        assert res.status == '400 BAD REQUEST'
 
     def test_get_all_dreams(self, api):
         res = api.get('/dreams')
@@ -236,9 +256,17 @@ class TestAPICase():
         res = api.get('/dreams/1')
         assert res.json["purchased"] == True
 
+    def test_put_nonexistant_dream(self, api):
+        res = api.put('/dreams/100')
+        assert res.status == '400 BAD REQUEST'
+
     def test_get_specific_dream(self, api):
         res = api.get('/dreams/1')
         assert res.status == '200 OK'
+
+    def test_get_nonexistant_dream(self, api):
+        res = api.get('/dreams/100')
+        assert res.status == '400 BAD REQUEST'
 
     def test_get_user_dreams(self, api):
         res = api.get('/users/test/dreams')
@@ -247,6 +275,14 @@ class TestAPICase():
     def test_delete_dream(self, api):
         res = api.delete('/dreams/1')
         assert res.status == '204 NO CONTENT'
+
+    def test_delete_nonexistant_dream(self, api):
+        res = api.delete('/dreams/100')
+        assert res.status == '400 BAD REQUEST'
+
+    def test_get_user_wishlist(self, api):
+        res = api.get('/users/test/wishlist')
+        assert res.status == '200 OK'
 
     def test_logout(self, api):
         res = api.get('/logout')
