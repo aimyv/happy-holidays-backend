@@ -139,6 +139,16 @@ class TestAPICase():
         res = api.get('/users/test/friends')
         assert len(res.json) == 1
 
+    def test_share(self, api):
+        mock_data = json.dumps({
+            "email": "test@test.com",
+            "from": "test"
+        })
+        mock_headers = {'Content-Type': 'application/json'}
+        res = api.post('/share',
+                       data=mock_data, headers=mock_headers)
+        assert res.status == '201 CREATED'
+
     def test_logout(self, api):
         res = api.get('/logout')
         assert res.status == '200 OK'

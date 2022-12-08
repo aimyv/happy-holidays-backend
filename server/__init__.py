@@ -54,9 +54,9 @@ def share():
                       sender='Happy-Holidays', recipients=[to_email])
         msg.html = render_template('share.html', name=invite_from)
         mail.send(msg)
-        return jsonify({"message": "Sharing is caring!"})
+        return jsonify({"message": "Sharing is caring!"}), 201
     else:
-        return jsonify({"message": "Send a post request with an email attribute."})
+        return jsonify({"message": "Send a post request with an email attribute."}), 400
 
 
 @login_manager.user_loader
